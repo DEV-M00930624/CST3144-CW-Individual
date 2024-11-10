@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Link to the external CSS file -->
   <link rel="stylesheet" href="css/CSSVueApp.css">
-
 </head>
 <body>
   <div id="app">
@@ -23,10 +22,15 @@
     <span class="all-added" v-if="allProductsAdded">All lessons have been added to the cart!</span>
 
     <div class="container">
-      <button @click="toggleCart" :disabled="cart.length === 0" class="cart-button">
-        <i class="fas fa-shopping-cart"></i>
-        {{ showCart ? 'Back to Lessons' : `Booking List${cartCount > 0 ? ` (${cartCount})` : ''}` }}
-      </button>
+      <div class="nav-buttons">
+        <button @click="goHome" class="home-button">
+          <i class="fas fa-home"></i> Home
+        </button>
+        <button @click="toggleCart" :disabled="cart.length === 0" class="cart-button">
+          <i class="fas fa-shopping-cart"></i>
+          {{ showCart ? 'Back to Lessons' : `Booking List${cartCount > 0 ? ` (${cartCount})` : ''}` }}
+        </button>
+      </div>
 
       <div v-if="!showCart" class="sorting-controls">
         <label for="sortAttribute">Sort by:</label>
@@ -43,11 +47,12 @@
           <option value="ascending">Ascending</option>
           <option value="descending">Descending</option>
         </select>
-        <!-- Search Box -->
+
+      <!-- Search Box -->
       <div class="search-box">
         <input type="text" v-model="searchQuery" placeholder="Search lessons..." />
       </div>
-      </div>
+    </div>
     </div>
 
     <!-- Lesson List -->
@@ -262,6 +267,9 @@
           } else {
             return 'far fa-star'; // Empty star
           }
+        },
+        goHome() {
+          window.location.href = 'index.html'; // Replace with your index page path
         }
       }
     }).mount('#app');
