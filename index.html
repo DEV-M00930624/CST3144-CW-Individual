@@ -4,11 +4,8 @@
   <meta charset="UTF-8">
   <title>DEV-M00930624</title>
   <link rel="icon" type="image/x-icon" href="images/college.ico">
-  <!-- Include Vue.js -->
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-  <!-- Include Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Link to the external CSS file -->
   <link rel="stylesheet" href="css/CSSVueApp.css">
 </head>
 <body>
@@ -28,7 +25,7 @@
         </button>
         <button @click="toggleCart" :disabled="cart.length === 0" class="cart-button">
           <i class="fas fa-shopping-cart"></i>
-          {{ showCart ? 'Booking List' : `Booking List${cartCount > 0 ? ` (${cartCount})` : ''}` }}
+          Booking List{{ cartCount > 0 ? ` (${cartCount})` : '' }}
         </button>
       </div>
 
@@ -48,7 +45,6 @@
           <option value="descending">Descending</option>
         </select>
 
-        <!-- Search Box -->
         <div class="search-box">
           <input type="text" v-model="searchQuery" placeholder="Search lessons..." />
         </div>
@@ -83,6 +79,7 @@
     <!-- Shopping Cart Page -->
     <div v-else class="cart-page">
       <h2>Your Booking List</h2>
+      
       <ul class="cart-list">
         <li v-for="(item, index) in cart" :key="item.id" class="cart-item">
           <div class="cart-item-details">
@@ -125,6 +122,6 @@
     </div>
   </div>
 
-  <script src="./app.js"></script> <!-- Reference to your Vue.js file -->
+  <script src="./app.js"></script> <!-- Link to your external JS file -->
 </body>
 </html>

@@ -37,22 +37,20 @@ createApp({
         if (this.sortAttribute === 'subject' || this.sortAttribute === 'location') {
           valueA = valueA.toLowerCase();
           valueB = valueB.toLowerCase();
-          if (valueA < valueB) return -1 * modifier;
-          if (valueA > valueB) return 1 * modifier;
-          return 0;
+          return (valueA < valueB ? -1 : valueA > valueB ? 1 : 0) * modifier;
         } else {
           return (valueA - valueB) * modifier;
         }
       });
     },
     filteredLessons() {
-      return this.sortedLessons.filter(lesson => 
+      return this.sortedLessons.filter(lesson =>
         lesson.subject.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
         lesson.location.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     },
     cartCount() {
-      return this.cart.length;
+      return this.cart.reduce((total, item) => total + item.quantity, 0);
     },
     totalQuantity() {
       return this.cart.reduce((total, item) => total + item.quantity, 0);
@@ -75,24 +73,17 @@ createApp({
   },
   watch: {
     name(value) {
-      if (!this.nameValid && value) {
-        this.nameError = 'Name must contain letters only.';
-      } else {
-        this.nameError = '';
-      }
+      this.nameError = !this.nameValid && value ? 'Name must contain letters only.' : '';
     },
     phone(value) {
-      if (!this.phoneValid && value) {
-        this.phoneError = 'Phone must contain numbers only.';
-      } else {
-        this.phoneError = '';
-      }
+      this.phoneError = !this.phoneValid && value ? 'Phone must contain numbers only.' : '';
     }
   },
   methods: {
     addToCart(lesson) {
       if (lesson.spaces > 0) {
         lesson.spaces--;
+
         let cartItem = this.cart.find(item => item.id === lesson.id);
         if (cartItem) {
           cartItem.quantity++;
@@ -109,12 +100,9 @@ createApp({
     removeFromCart(item) {
       let lesson = this.lessons.find(lesson => lesson.id === item.id);
       if (lesson) {
-        lesson.spaces += item.quantity;
+        lesson.spaces += item.quantity; // Restore spaces
       }
-      let index = this.cart.indexOf(item);
-      if (index > -1) {
-        this.cart.splice(index, 1);
-      }
+      this.cart = this.cart.filter(cartItem => cartItem.id !== item.id);
     },
     toggleCart() {
       this.showCart = !this.showCart;
