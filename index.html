@@ -20,6 +20,9 @@
 
     <div class="container">
       <div class="nav-buttons">
+        <button @click="goHome" class="home-button">
+          <i class="fas fa-home"></i>
+        </button>
         <button @click="toggleCart" :disabled="cart.length === 0" class="cart-button">
           <i class="fas fa-shopping-cart"></i>
           Booking List{{ cartCount > 0 ? ` (${cartCount})` : '' }}
