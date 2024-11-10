@@ -132,10 +132,10 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="delivery">Delivery Option:</label>
+            <label for="delivery">Confirmation Option:</label>
             <select v-model="deliveryOption" id="delivery" required>
-              <option value="home">Home Delivery</option>
-              <option value="personal">Personal Pickup</option>
+              <option value="home">Online</option>
+              <option value="personal">In Person</option>
             </select>
           </div>
           <button type="submit" :disabled="!isFormValid" class="checkout-button">Checkout</button>
