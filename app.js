@@ -26,7 +26,7 @@ createApp({
         { id: 9, subject: 'Creative media', location: 'Portsmouth', price: 575, spaces: 5, icon: 'images/icons/media.gif', rating: 4.5 },
         { id: 10, subject: 'Computer Science', location: 'Bristol', price: 930, spaces: 5, icon: 'images/icons/computer_science.gif', rating: 5 }
       ],
-      cart: []
+      cart: [],
     };
   },
   computed: {
