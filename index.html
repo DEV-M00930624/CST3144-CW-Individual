@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Link to the external CSS file -->
   <link rel="stylesheet" href="css/CSSVueApp.css">
+
 </head>
 <body>
   <div id="app">
@@ -19,17 +20,14 @@
       <h3>Discover the diverse range of subject areas in which we specialise at Middlesex, to see how we can best match with your ambitions</h3>
     </header>
 
-    <!-- Span that displays when all products are added to the cart -->
     <span class="all-added" v-if="allProductsAdded">All lessons have been added to the cart!</span>
 
     <div class="container">
-      <!-- Shopping Cart Button with Cart Icon and Cart Count, hidden when cart is empty -->
       <button @click="toggleCart" :disabled="cart.length === 0" class="cart-button">
         <i class="fas fa-shopping-cart"></i>
         {{ showCart ? 'Back to Lessons' : `Booking List${cartCount > 0 ? ` (${cartCount})` : ''}` }}
       </button>
 
-      <!-- Sorting Controls (only show when not in cart page) -->
       <div v-if="!showCart" class="sorting-controls">
         <label for="sortAttribute">Sort by:</label>
         <select v-model="sortAttribute" id="sortAttribute">
@@ -45,12 +43,16 @@
           <option value="ascending">Ascending</option>
           <option value="descending">Descending</option>
         </select>
+        <!-- Search Box -->
+      <div class="search-box">
+        <input type="text" v-model="searchQuery" placeholder="Search lessons..." />
+      </div>
       </div>
     </div>
 
     <!-- Lesson List -->
     <ul v-if="!showCart" class="lesson-list">
-      <li v-for="lesson in sortedLessons" :key="lesson.id" class="lesson-card">
+      <li v-for="lesson in filteredLessons" :key="lesson.id" class="lesson-card">
         <div class="lesson-info">
           <h2>
             <img :src="lesson.icon" alt="Lesson Icon" class="lesson-icon">
@@ -65,7 +67,6 @@
             </span>
           </p>
         </div>
-        <!-- Add to Cart Button with Cart Icon -->
         <div class="lesson-actions">
           <button @click="addToCart(lesson)" :disabled="lesson.spaces <= 0" class="add-button">
             <i class="fas fa-cart-plus"></i> Add to Booking List
@@ -85,7 +86,6 @@
             <span class="item-quantity">x{{ item.quantity }}</span>
             <span class="item-total">= £{{ (item.price * item.quantity).toFixed(2) }}</span>
           </div>
-          <!-- Remove from Cart Button -->
           <button @click="removeFromCart(item)" class="remove-button">
             <i class="fas fa-trash-alt"></i> Remove
           </button>
@@ -97,7 +97,6 @@
         <p><strong>Total Cost:</strong> £{{ cartTotalCost.toFixed(2) }}</p>
       </div>
 
-      <!-- Checkout Section -->
       <div class="checkout-section">
         <h3>Checkout</h3>
         <form @submit.prevent="checkout" class="checkout-form">
@@ -114,7 +113,6 @@
           <button type="submit" :disabled="!isFormValid" class="checkout-button">Checkout</button>
         </form>
 
-        <!-- Order Confirmation Message -->
         <div v-if="orderSubmitted" class="confirmation-message">
           <p>Thank you, your spot has been reserved!</p>
         </div>
@@ -122,7 +120,6 @@
     </div>
   </div>
 
-  <!-- Include Vue.js script -->
   <script>
     const { createApp } = Vue;
 
@@ -137,6 +134,7 @@
           nameError: '',
           phoneError: '',
           orderSubmitted: false,
+          searchQuery: '',
           lessons: [
             { id: 1, subject: 'Project management', location: 'Sheffield', price: 800, spaces: 5, icon: 'images/icons/engineering.gif', rating: 4 },
             { id: 2, subject: 'Design engineering', location: 'London', price: 690, spaces: 5, icon: 'images/icons/project.gif', rating: 5 },
@@ -170,6 +168,12 @@
             }
           });
         },
+        filteredLessons() {
+          return this.sortedLessons.filter(lesson => 
+            lesson.subject.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+            lesson.location.toLowerCase().includes(this.searchQuery.toLowerCase())
+          );
+        },
         cartCount() {
           return this.cart.length;
         },
@@ -185,11 +189,9 @@
         phoneValid() {
           return /^[0-9]+$/.test(this.phone);
         },
-        // Computed property to check if all products have been added
         allProductsAdded() {
           return this.lessons.every(lesson => lesson.spaces === 0);
         },
-        // Computed property to calculate total cost
         cartTotalCost() {
           return this.cart.reduce((total, item) => total + (item.price * item.quantity), 0);
         }

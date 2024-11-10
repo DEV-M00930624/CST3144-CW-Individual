@@ -311,3 +311,22 @@ header h3 {
     text-align: left;
   }
 }
+
+.search-box {
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.search-box input {
+  padding: 5px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 300px;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #007bff; /* Change to your preferred focus color */
+}
