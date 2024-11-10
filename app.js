@@ -8,8 +8,10 @@ createApp({
       showCart: false,
       name: '',
       phone: '',
+      email: '', // Added email for checkout
       nameError: '',
       phoneError: '',
+      emailError: '', // Added email error handling
       orderSubmitted: false,
       searchQuery: '',
       lessons: [
@@ -56,13 +58,16 @@ createApp({
       return this.cart.reduce((total, item) => total + item.quantity, 0);
     },
     isFormValid() {
-      return this.nameValid && this.phoneValid;
+      return this.nameValid && this.phoneValid && this.emailValid;
     },
     nameValid() {
       return /^[a-zA-Z\s]+$/.test(this.name);
     },
     phoneValid() {
       return /^[0-9]+$/.test(this.phone);
+    },
+    emailValid() {
+      return /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(this.email);
     },
     allProductsAdded() {
       return this.lessons.every(lesson => lesson.spaces === 0);
@@ -77,6 +82,9 @@ createApp({
     },
     phone(value) {
       this.phoneError = !this.phoneValid && value ? 'Phone must contain numbers only.' : '';
+    },
+    email(value) {
+      this.emailError = !this.emailValid && value ? 'Email is not valid.' : '';
     }
   },
   methods: {
@@ -112,10 +120,12 @@ createApp({
     },
     checkout() {
       if (this.isFormValid) {
+        alert("Thank you for your bookings!"); // Show alert on successful checkout
         this.orderSubmitted = true;
         this.cart = [];
         this.name = '';
         this.phone = '';
+        this.email = '';
         this.showCart = false;
       }
     },

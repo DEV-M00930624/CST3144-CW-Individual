@@ -112,6 +112,32 @@
             <input type="text" v-model="phone" id="phone" required>
             <span class="error" v-if="phoneError">{{ phoneError }}</span>
           </div>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" v-model="email" id="email" required>
+            <span class="error" v-if="emailError">{{ emailError }}</span>
+          </div>
+          <div class="form-group">
+            <label for="location">Location:</label>
+            <select v-model="location" id="location" required>
+              <option value="" disabled>Select a UK location</option>
+              <option value="London">London</option>
+              <option value="Manchester">Manchester</option>
+              <option value="Birmingham">Birmingham</option>
+              <option value="Leeds">Leeds</option>
+              <option value="Glasgow">Glasgow</option>
+              <option value="Bristol">Bristol</option>
+              <option value="Liverpool">Liverpool</option>
+              <!-- Add more locations as needed -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="delivery">Delivery Option:</label>
+            <select v-model="deliveryOption" id="delivery" required>
+              <option value="home">Home Delivery</option>
+              <option value="personal">Personal Pickup</option>
+            </select>
+          </div>
           <button type="submit" :disabled="!isFormValid" class="checkout-button">Checkout</button>
         </form>
 
